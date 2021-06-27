@@ -16,17 +16,13 @@ import {
 } from "./lib/deps.ts"
 
 /**
+ * TODO \(;-;)/
  * Takes arguments from command line and runs server.
- * @param { string[] } args - First argument passed in command line will enable more info about traffic.
+ * @param { t } n - d.
+ * @param { t } n - d.
  */
-export async function engine(args: string[] = Deno.args) {
-    const validArg: boolean = argsValidation(args)
-
-    const config: any = await getJSONfile(`${Deno.cwd()}/config/conf.server.json`)
-    const conf: server_config = {
-        arguments: args,
-        server_conf: config
-    }
+export async function engine(displayMoreInfo: boolean) {
+    const serv_conf: any = await getJSONfile(`${Deno.cwd()}/config/server.config.json`)
 
     let requested_files: any[] = []
     let requested_files_str: string
@@ -37,9 +33,9 @@ export async function engine(args: string[] = Deno.args) {
         try {
             // Sets folder for static webpages
             const public_file: any = await send(context, context.request.url.pathname, {
-                root: `${Deno.cwd()}/${conf.server_conf.public_file.public_dir}`,
-                index: `${conf.server_conf.public_file.index_file}`,
-                extensions: conf.server_conf.public_file.file_exts
+                root: `${Deno.cwd()}/${serv_conf.public_file.public_dir}`,
+                index: `${serv_conf.public_file.index_file}`,
+                extensions: serv_conf.public_file.file_exts
             })
 
             // Gets info about requested file and saves in array
@@ -48,11 +44,11 @@ export async function engine(args: string[] = Deno.args) {
             requested_files_str = requested_files.join(', ')
 
             // Displays information about responsed file whether is true
-            if (validArg) console.log(log_style.resp.name, log_style.resp.color, `Requested file ${file_info.base} in ${file_info.dir}`)
+            if (displayMoreInfo) console.log(log_style.resp.name, log_style.resp.color, `Requested file ${file_info.base} in ${file_info.dir}`)
             writeLogToFile(log_style.resp.name, `Requested file ${file_info.base} in ${file_info.dir}`)
         } catch (e) {
             // Displays error name whether is true
-            if (validArg) console.log(log_style.warrning.name, log_style.warrning.color, `Error name: ${e.name}`)
+            if (displayMoreInfo) console.log(log_style.warrning.name, log_style.warrning.color, `Error name: ${e.name}`)
             writeLogToFile(log_style.warrning.name, `Error name: ${e.name}`)
 
             const body: string = await getHTMLindexFile(`${Deno.cwd()}/err/404_not_found.html`)
@@ -74,12 +70,20 @@ export async function engine(args: string[] = Deno.args) {
     // Middleware that handles requests for HTTP methods registered with the router.
     app.use(router.allowedMethods())
 
-    console.log(log_style.start.name, log_style.start.color, `Server is running on port ${config.port_obj.port}`)
-    writeLogToFile(log_style.start.name, `Server is running on port ${config.port_obj.port}`)
+    try {
+        console.log(log_style.start.name, log_style.start.color, `Server is running on port ${serv_conf.port_obj.port}`)
+        writeLogToFile(log_style.start.name, `Server is running on port ${serv_conf.port_obj.port}`)
 
-    // Displays more info whether is true
-    if (validArg) console.log(log_style.info.name, log_style.info.color, `Working in ${Deno.cwd()}`)
-    writeLogToFile(log_style.info.name, `Working in ${Deno.cwd()}`)
+        // Displays more info whether is true
+        if (displayMoreInfo) console.log(log_style.info.name, log_style.info.color, `Working in ${Deno.cwd()}`)
+        writeLogToFile(log_style.info.name, `Working in ${Deno.cwd()}`)
 
-    await app.listen(config.port_obj)
+        await app.listen(serv_conf.port_obj);
+    } catch (e) {
+
+        console.log(e)
+        if (displayMoreInfo) console.log(log_style.error.name, log_style.error.color, `Error: ${e}`)
+        writeLogToFile(log_style.error.name, `Error: ${e}`)
+        return e
+    }
 }

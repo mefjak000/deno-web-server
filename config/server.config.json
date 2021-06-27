@@ -1,6 +1,6 @@
 {
     "address_obj": {
-        "hostname": "127.0.0.1"
+        "addr": "127.0.0.1"
     },
     "port_obj": {
         "port": 80

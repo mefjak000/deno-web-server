@@ -5,6 +5,10 @@ export {
 } from "https://deno.land/std@0.99.0/path/mod.ts"
 
 export {
+    engine
+} from "../server.ts"
+
+export {
     getHTMLindexFile,
     getJSONfile,
     CLItest,
