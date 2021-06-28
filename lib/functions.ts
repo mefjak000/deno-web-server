@@ -50,7 +50,7 @@ export async function writeLogToFile(type_id: number = 0, name: string, message:
         log = `[${date_str}] ${name} ${message}\n`
     }
 
-    await Deno.writeTextFile(`${Deno.cwd()}/log/logs.log`, log, { append: add })
+    await Deno.writeTextFile(`${Deno.cwd()}/log/logs.log`, log, { append: add, create: true })
 }
 
 /**

@@ -100,14 +100,17 @@ export async function engine(displayMoreInfo: boolean = true) {
             if (secure) {
                 console.log(log_style.start.name, log_style.start.color, `Server is running on: "https://"${hostname}:${port}`)
                 writeLogToFile(0, log_style.start.name, `Server is running on: "http://"${hostname}:${port}`)
+            } else {
+                console.log(log_style.start.name, log_style.start.color, `Server is running on: "http://"${hostname}:${port}`)
+                writeLogToFile(0, log_style.start.name, `Server is running on: "http://"${hostname}:${port}`)
             }
-            console.log(log_style.start.name, log_style.start.color, `Server is running on: "http://"${hostname}:${port}`)
-            writeLogToFile(0, log_style.start.name, `Server is running on: "http://"${hostname}:${port}`)
+
+            // Displays more info whether is true
+            if (displayMoreInfo) console.log(log_style.info.name, log_style.info.color, `Working in ${Deno.cwd()}`)
+            writeLogToFile(1, log_style.info.name, `Working in ${Deno.cwd()}`)
         })
 
-        // Displays more info whether is true
-        if (displayMoreInfo) console.log(log_style.info.name, log_style.info.color, `Working in ${Deno.cwd()}`)
-        writeLogToFile(1, log_style.info.name, `Working in ${Deno.cwd()}`)
+
 
         if (serv_conf.conn.secure) {
             await app.listen({

@@ -1,5 +1,4 @@
 # Ignore test dir
 test/
 # Ignore Logs
-log/
-*.log
+log/logs.log
