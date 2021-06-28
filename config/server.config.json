@@ -1,19 +1,20 @@
 {
-    "address_obj": {
-        "addr": "127.0.0.1"
+    "conn": {
+        "hostname": "127.0.0.1",
+        "port": 80,
+        "secure": false,
+        "protocol": "tcp",
+        "certFile": "",
+        "keyFile": ""
     },
-    "port_obj": {
-        "port": 80
-    },
-    "public_file": {
+    "public": {
         "public_dir": "public",
         "index_file": "index.html",
-        "file_exts": [
+        "hide_file_exts": [
             "html"
         ]
     },
     "routes_register": [
-        "/home",
         "/test/api"
     ]
 }

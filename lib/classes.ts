@@ -9,10 +9,10 @@ export class ServerLog {
     color: string
     date = Date.now()
 
-    constructor(name: string = '[SERVER LOG]:', color: string = '#0099ff') {
+    constructor(type_id: number, label: string = '[SERVER LOG]:', color: string = '#0099ff') {
         // Regular expression for console name
         const pattern1 = /\[SERVER [A-Z]{2,10}\]/gmi
-        if (pattern1.test(name)) this.name = `%c${name}:`
+        if (pattern1.test(label)) this.name = `%c${label}:`
         else this.name = `%c[SERVER LOG]`
 
         // Regular expression for console color

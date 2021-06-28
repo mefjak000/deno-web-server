@@ -1,7 +1,8 @@
 import {
     parse,
     log_style,
-    testing as test
+    testing as test,
+    rand_sid as sid
 } from "../lib/deps.ts";
 
 /**
@@ -37,11 +38,18 @@ export function formatNumberInLog(num: number, indexOf: number = -2): string {
  * @param { string } message - Server log message.
  * @param { boolean } add - Variable enables appending to the .log file instead of overwrite it.
  */
-export async function writeLogToFile(name: string, message: string, add: boolean = true) {
+export async function writeLogToFile(type_id: number = 0, name: string, message: string, add: boolean = true) {
     const date = new Date()
     const date_str: string = `${formatNumberInLog(date.getFullYear(), -4)}/${formatNumberInLog(date.getMonth())}/${formatNumberInLog(date.getDate())} ${formatNumberInLog(date.getHours())}:${formatNumberInLog(date.getMinutes())}:${formatNumberInLog(date.getSeconds())}`
     name = name.slice(2) // Delete %c prefix for color in console
-    const log: string = `[${date_str}] ${name} ${message}\n`
+    let log: string
+
+    if (type_id == 0) {
+        log = `SESSION id: ${sid}\n[${date_str}] ${name} ${message}\n`
+    } else {
+        log = `[${date_str}] ${name} ${message}\n`
+    }
+
     await Deno.writeTextFile(`${Deno.cwd()}/log/logs.log`, log, { append: add })
 }
 
