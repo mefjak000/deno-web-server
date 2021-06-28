@@ -1,14 +1,17 @@
 import {
     parse,
-    log_style
+    log_style,
+    testing as test
 } from "../lib/deps.ts";
 
 /**
  * Used in testing.
  * @param { any } test_instance - Used to display parameter and type in console.
+ * @param { boolean } display_type - //TODO.
  */
-export function CLItest(test_instance: any) {
-    console.log(log_style.test.name, log_style.test.color, test_instance, typeof test_instance)
+export function CLItest(test_instance: any, display_type: boolean = false) {
+    if (display_type) console.log(log_style.test.name, log_style.test.color, test_instance, typeof test_instance)
+    console.log(log_style.test.name, log_style.test.color, test_instance)
 }
 
 /**
@@ -73,8 +76,13 @@ export async function getJSONfile(file_path: string, log_file_path: boolean = fa
 export function argsValidation(args: string[] = []) {
     // First argument must be true, type boolean
     switch (args[0]) {
-        case "true":
+        case "false":
+            // Logs will NOT be displayed in console
+            return false
+        case "undefined":
+            console.log(log_style.warrning.name, log_style.warrning.color, `Wrong parameter passed`)
+            // Logs will be displayed in console
+        default:
             return true
     }
-    return false
 }

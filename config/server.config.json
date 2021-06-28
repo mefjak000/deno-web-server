@@ -11,5 +11,9 @@
         "file_exts": [
             "html"
         ]
-    }
+    },
+    "routes_register": [
+        "/home",
+        "/test/api"
+    ]
 }

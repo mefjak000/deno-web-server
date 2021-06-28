@@ -6,7 +6,7 @@ export {
 
 export {
     engine
-} from "../server.ts"
+} from "./server.ts"
 
 export {
     getHTMLindexFile,
@@ -15,12 +15,12 @@ export {
     getFileInfo,
     argsValidation,
     writeLogToFile
-} from "../lib/functions.ts"
+} from "./functions.ts"
 
 export {
     ServerLog,
-} from "../lib/classes.ts"
+} from "./classes.ts"
 
 export {
     log_style,
-} from "../lib/log_style.ts"
+} from "./log_style.ts"
