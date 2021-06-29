@@ -9,7 +9,7 @@ export {
 } from "./server.ts"
 
 export {
-    getHTMLindexFile,
+    getHTMLfile,
     getJSONfile,
     CLItest,
     getFileInfo,
@@ -28,3 +28,7 @@ export {
 export {
     rand_sid
 } from "./sid.ts"
+
+export {
+    global_time
+} from "../run.ts"

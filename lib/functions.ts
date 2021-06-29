@@ -58,7 +58,7 @@ export async function writeLogToFile(type_id: number = 0, name: string, message:
  * @param { string } file_path - Path of file from which we getting data.
  * @param { boolean } log_file_path - Optional argument which enable displaying path in console.log.
  */
-export async function getHTMLindexFile(file_path: string, log_file_path: boolean = false) {
+export async function getHTMLfile(file_path: string, log_file_path: boolean = false) {
     const HTMLfilePath = getFileInfo(file_path)
     if (log_file_path) console.log(HTMLfilePath)
     return await Deno.readTextFile(file_path)

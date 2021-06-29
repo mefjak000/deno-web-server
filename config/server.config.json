@@ -1,11 +1,16 @@
 {
     "conn": {
         "hostname": "127.0.0.1",
-        "port": 80,
+        "http_port": 80,
+        "https_port": 443,
         "secure": false,
         "protocol": "tcp",
-        "certFile": "",
-        "keyFile": ""
+        "certFile": "C:\\xampp\\htdocs\\WWW\\deno\\config\\cert\\cert_file.crt",
+        "keyFile": "C:\\xampp\\htdocs\\WWW\\deno\\config\\cert\\cert_key.key",
+        "alpnProtocols": [
+            "h2",
+            "http/1.1"
+        ]
     },
     "public": {
         "public_dir": "public",
@@ -14,7 +19,7 @@
             "html"
         ]
     },
-    "routes_register": [
+    "routes_list": [
         "/test/api"
     ]
 }
