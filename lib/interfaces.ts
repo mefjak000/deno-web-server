@@ -1,3 +1,3 @@
-export interface server_config {
-    config: any
+export type server_config = {
+    name: string
 }

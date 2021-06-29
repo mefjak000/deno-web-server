@@ -10,16 +10,17 @@ import {
     send,
     log_style,
     writeLogToFile,
-    global_time
+    global_time,
+    CONF
 } from "./deps.ts"
+
+import logger from "https://deno.land/x/oak_logger/mod.ts"
 
 /**
  * Takes arguments from command line and runs server.
  * @param { boolean } displayMoreInfo - If true then server will display logs in console, default = true.
  */
 
-// 1. config | next
-// 2. Check registered route | next if route is registered
 export async function engine(displayMoreInfo: boolean = true) {
     let serv_conf: any
     try {
@@ -34,9 +35,17 @@ export async function engine(displayMoreInfo: boolean = true) {
     const app = new Application()
     const router = new Router()
 
+    if (displayMoreInfo) {
+        // Log and response time
+        app.use(logger.logger)
+        app.use(logger.responseTime)
+    }
+
     // Manages requests and responses, function is from "Oak framework"
     app.use(async (ctx, next) => {
         try {
+            ctx.response.headers.set("Server", CONF.name)
+
             let file: any
             // Checks if route is registered
             if (!serv_conf.routes_list.includes(ctx.request.url.pathname)) {
@@ -58,7 +67,6 @@ export async function engine(displayMoreInfo: boolean = true) {
             if (isHttpError(error)) {
                 switch (ctx.response.status) {
                     case Status.NotFound :
-                        test("IN => app.use() => Error:")
                         const body: string = await getHTMLfile(`${Deno.cwd()}/err/404_not_found.html`)
                         ctx.response.body = body
                 }
@@ -84,7 +92,6 @@ export async function engine(displayMoreInfo: boolean = true) {
                 writeLogToFile(4, log_style.resp.name, `Requested URI ${ctx.request.url.pathname}`)
             } catch (error) {
                 if (isHttpError(error)) {
-                    test("IN => app.get('/test/api') => Error:")
                     ctx.response.body = {
                         status: ctx.response.status,
                         message: error.name

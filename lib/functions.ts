@@ -94,3 +94,5 @@ export function argsValidation(args: string[] = []) {
             return true
     }
 }
+
+export function setHeaders() {}

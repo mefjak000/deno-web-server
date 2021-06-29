@@ -32,3 +32,7 @@ export {
 export {
     global_time
 } from "../run.ts"
+
+export {
+    CONF
+} from "./conf.ts"
