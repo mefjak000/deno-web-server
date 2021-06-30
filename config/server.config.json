@@ -1,6 +1,6 @@
 {
     "conn": {
-        "hostname": "192.168.0.20",
+        "hostname": "127.0.0.1",
         "http_port": 80,
         "https_port": 443,
         "secure": false,

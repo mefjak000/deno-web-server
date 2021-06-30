@@ -1,6 +1,6 @@
 import {
     ServerLog
-} from "../lib/deps.ts"
+} from "./../lib/deps.ts"
 
 export const log_style = {
     "start": new ServerLog(0, "[SERVER ENGINE]", "#00cc66"),
