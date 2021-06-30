@@ -1,6 +1,6 @@
 {
     "conn": {
-        "hostname": "127.0.0.1",
+        "hostname": "192.168.0.20",
         "http_port": 80,
         "https_port": 443,
         "secure": false,
@@ -10,7 +10,8 @@
         "alpnProtocols": [
             "h2",
             "http/1.1"
-        ]
+        ],
+        "redirect": false
     },
     "public": {
         "public_dir": "public",

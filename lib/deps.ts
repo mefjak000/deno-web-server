@@ -14,7 +14,9 @@ export {
     CLItest,
     getFileInfo,
     argsValidation,
-    writeLogToFile
+    writeLogToFile,
+    displayMoreInfoInLog,
+    SetResponseTimeInHeader
 } from "./functions.ts"
 
 export {

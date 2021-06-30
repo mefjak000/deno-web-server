@@ -2,7 +2,7 @@ import {
     parse,
     log_style,
     testing as test,
-    rand_sid as sid
+    rand_sid as sid,
 } from "../lib/deps.ts";
 
 /**
@@ -45,7 +45,7 @@ export async function writeLogToFile(type_id: number = 0, name: string, message:
     let log: string
 
     if (type_id == 0) {
-        log = `SESSION id: ${sid}\n[${date_str}] ${name} ${message}\n`
+        log = `SERVER START id: ${sid}\n[${date_str}] ${name} ${message}\n`
     } else {
         log = `[${date_str}] ${name} ${message}\n`
     }
@@ -89,10 +89,41 @@ export function argsValidation(args: string[] = []) {
             return false
         case "undefined":
             console.log(log_style.warrning.name, log_style.warrning.color, `Wrong parameter passed`)
-            // Logs will be displayed in console
+        // Logs will be displayed in console
         default:
             return true
     }
 }
 
-export function setHeaders() {}
+/**
+ *
+ * @param { any } ctx
+ * @param { any } next
+ */
+export const displayMoreInfoInLog = async (
+    { response, request }: { response: any; request: any },
+    next: Function,
+) => {
+    await next()
+    const responseTimeHeader = response.headers.get("X-Response-Time")
+    const UserAgentHeader = request.headers.get("User-Agent")
+    const statusNumber: number = response.status
+    const log: string = `${request.ip} ${request.method} "${request.url.pathname}" ${String(statusNumber)} ${UserAgentHeader} ${responseTimeHeader}`
+    writeLogToFile(4, log_style.resp.name, log)
+    console.log(log_style.resp.name, log_style.resp.color, log)
+};
+
+/**
+ *
+ * @param { any } ctx
+ * @param { any } next
+ */
+export const SetResponseTimeInHeader = async (
+    { response }: { response: any },
+    next: Function,
+) => {
+    const start = Date.now()
+    await next()
+    const ms: number = Date.now() - start
+    response.headers.set("X-Response-Time", `${ms}ms`)
+}

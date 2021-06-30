@@ -11,10 +11,12 @@ import {
     log_style,
     writeLogToFile,
     global_time,
-    CONF
+    CONF,
+    displayMoreInfoInLog,
+    SetResponseTimeInHeader
 } from "./deps.ts"
 
-import logger from "https://deno.land/x/oak_logger/mod.ts"
+// import logger from "https://deno.land/x/oak_logger/mod.ts"
 
 /**
  * Takes arguments from command line and runs server.
@@ -37,13 +39,22 @@ export async function engine(displayMoreInfo: boolean = true) {
 
     if (displayMoreInfo) {
         // Log and response time
-        app.use(logger.logger)
-        app.use(logger.responseTime)
+        app.use(displayMoreInfoInLog)
+        app.use(SetResponseTimeInHeader)
     }
+
+    // Redirect handler
+    app.use(async (ctx, next) => {
+        if (ctx.request.url.protocol == "http:" && serv_conf.conn.redirect == true) {
+            ctx.response.redirect("https://" + ctx.request.url.hostname + ctx.request.url.pathname)
+        }
+        await next()
+    })
 
     // Manages requests and responses, function is from "Oak framework"
     app.use(async (ctx, next) => {
         try {
+            // Sets server name in http headers
             ctx.response.headers.set("Server", CONF.name)
 
             let file: any
@@ -58,15 +69,11 @@ export async function engine(displayMoreInfo: boolean = true) {
 
                 // Gets info about requested file and saves in array
                 const file_info = getFileInfo(file)
-
-                // Displays information about responsed file whether is true
-                if (displayMoreInfo) console.log(log_style.resp.name, log_style.resp.color, `Requested file ${file_info.base} in ${file_info.dir}`)
-                writeLogToFile(4, log_style.resp.name, `Requested file ${file_info.base} in ${file_info.dir}`)
             }
         } catch (error) {
             if (isHttpError(error)) {
                 switch (ctx.response.status) {
-                    case Status.NotFound :
+                    case Status.NotFound:
                         const body: string = await getHTMLfile(`${Deno.cwd()}/err/404_not_found.html`)
                         ctx.response.body = body
                 }
@@ -86,10 +93,6 @@ export async function engine(displayMoreInfo: boolean = true) {
                     status: "success",
                     message: "Hi there"
                 }
-
-                // Displays information about responsed URI whether is true
-                if (displayMoreInfo) console.log(log_style.resp.name, log_style.resp.color, `Requested URI ${ctx.request.url.pathname}`)
-                writeLogToFile(4, log_style.resp.name, `Requested URI ${ctx.request.url.pathname}`)
             } catch (error) {
                 if (isHttpError(error)) {
                     ctx.response.body = {
