@@ -13,7 +13,7 @@
 
 
 
-![GitHub last commit](https://img.shields.io/github/last-commit/mefjak000/deno-based-http-server?logo=github)  ![GitHub issues](https://img.shields.io/github/issues/mefjak000/deno-based-http-server?logo=github) ![GitHub file size in bytes](https://img.shields.io/github/size/mefjak000/deno-based-http-server?logo=github)  ![GitHub all releases](https://img.shields.io/github/downloads/mefjak000/deno-based-http-server/total?logo=github) ![GitHub](https://img.shields.io/github/license/mefjak000/http-deno-based-server?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/mefjak000/httppod-web-server?logo=github)  ![GitHub issues](https://img.shields.io/github/issues/mefjak000/httppod-web-server?logo=github) ![GitHub file size in bytes](https://img.shields.io/github/size/mefjak000/httppod-web-server?logo=github)  ![GitHub all releases](https://img.shields.io/github/downloads/mefjak000/httppod-web-server/total?logo=github) ![GitHub](https://img.shields.io/github/license/mefjak000/http-deno-based-server?logo=github)
 
 
 
