@@ -81,17 +81,17 @@ export async function getJSONfile(file_path: string, log_file_path: boolean = fa
  * Validates arguments passed in command line.
  * @param { string[] } args - Takes arguments passed in command line.
  */
-export function argsValidation(args: string[] = []) {
+export function argsValidation(args: string = "") {
     // First argument must be true, type boolean
-    switch (args[0]) {
-        case "false":
+    switch (args) {
+        case "true":
             // Logs will NOT be displayed in console
-            return false
+            return true
         case "undefined":
             console.log(log_style.warrning.name, log_style.warrning.color, `Wrong parameter passed`)
         // Logs will be displayed in console
         default:
-            return true
+            return false
     }
 }
 

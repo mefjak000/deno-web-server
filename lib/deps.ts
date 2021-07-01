@@ -6,7 +6,7 @@ export {
 
 export {
     engine
-} from "./server.ts"
+} from "./engine.ts"
 
 export {
     getHTMLfile,
@@ -33,7 +33,7 @@ export {
 
 export {
     global_time
-} from "../run.ts"
+} from "../core/server.ts"
 
 export {
     CONF

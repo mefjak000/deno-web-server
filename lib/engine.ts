@@ -13,22 +13,18 @@ import {
     global_time,
     CONF,
     displayMoreInfoInLog,
-    SetResponseTimeInHeader
+    SetResponseTimeInHeader,
 } from "./deps.ts"
 
-// import logger from "https://deno.land/x/oak_logger/mod.ts"
-
 /**
- * Takes arguments from command line and runs server.
- * @param { boolean } displayMoreInfo - If true then server will display logs in console, default = true.
+ * Runs server engine.
  */
-
-export async function engine(displayMoreInfo: boolean = true) {
+export async function engine(isSecure: boolean = false) {
     let serv_conf: any
     try {
         serv_conf = await getJSONfile(`${Deno.cwd()}/config/server.config.json`)
     } catch (error) {
-        if (displayMoreInfo) console.log(log_style.error.name, log_style.error.color, `Config load FAIL. ${error.name}`)
+        if (serv_conf.displayLogs) console.log(log_style.error.name, log_style.error.color, `Config load FAIL. ${error.name}`)
         writeLogToFile(6, log_style.error.name, `Config load FAIL. ${error.name}`)
         return
     }
@@ -37,7 +33,7 @@ export async function engine(displayMoreInfo: boolean = true) {
     const app = new Application()
     const router = new Router()
 
-    if (displayMoreInfo) {
+    if (serv_conf.displayLogs) {
         // Log and response time
         app.use(displayMoreInfoInLog)
         app.use(SetResponseTimeInHeader)
@@ -78,8 +74,8 @@ export async function engine(displayMoreInfo: boolean = true) {
                         ctx.response.body = body
                 }
             }
-            // Displays error name whether displayMoreInfo is true
-            if (displayMoreInfo) console.log(log_style.warrning.name, log_style.warrning.color, `${error.name} ${error.message}`)
+            // Displays error name whether serv_conf.displayLogs is true
+            if (serv_conf.displayLogs) console.log(log_style.warrning.name, log_style.warrning.color, `${error.name} ${error.message}`)
             writeLogToFile(5, log_style.warrning.name, `${error.name} ${error.message}`)
         }
         await next()
@@ -101,7 +97,7 @@ export async function engine(displayMoreInfo: boolean = true) {
                     }
 
                     // Displays URI error name whether is true
-                    if (displayMoreInfo) console.log(log_style.warrning.name, log_style.warrning.color, `${error.name} ${error.message}`)
+                    if (serv_conf.displayLogs) console.log(log_style.warrning.name, log_style.warrning.color, `${error.name} ${error.message}`)
                     writeLogToFile(5, log_style.warrning.name, `${error.name} ${error.message}`)
                 }
             }
@@ -128,27 +124,27 @@ export async function engine(displayMoreInfo: boolean = true) {
             writeLogToFile(3, log_style.status.name, `Program start time: ${start_time} s`)
 
             // Displays more info whether is true
-            if (displayMoreInfo) console.log(log_style.info.name, log_style.info.color, `Working in ${Deno.cwd()}`)
+            if (serv_conf.displayLogs) console.log(log_style.info.name, log_style.info.color, `Working in ${Deno.cwd()}`)
             writeLogToFile(1, log_style.info.name, `Working in ${Deno.cwd()}`)
         })
 
-        if (serv_conf.conn.secure) {
+        if (isSecure) {
             await app.listen({
+                secure: isSecure,
+                certFile: serv_conf.https.certFile,
+                keyFile: serv_conf.https.keyFile,
                 hostname: serv_conf.conn.hostname,
-                port: serv_conf.conn.https_port,
-                secure: serv_conf.conn.secure,
-                certFile: serv_conf.conn.certFile,
-                keyFile: serv_conf.conn.keyFile,
+                port: serv_conf.https.port,
                 alpnProtocols: serv_conf.conn.alpnProtocols
             })
         } else {
             await app.listen({
                 hostname: serv_conf.conn.hostname,
-                port: serv_conf.conn.http_port
+                port: serv_conf.http.port
             })
         }
     } catch (error) {
-        if (displayMoreInfo) console.log(log_style.error.name, log_style.error.color, `${error.name} ${error.message}`)
+        if (serv_conf.displayLogs) console.log(log_style.error.name, log_style.error.color, `${error.name} ${error.message}`)
         writeLogToFile(5, log_style.error.name, `${error.name} ${error.message}`)
         return
     }
