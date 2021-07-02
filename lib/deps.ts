@@ -15,7 +15,9 @@ export {
     getFileInfo,
     writeLogToFile,
     displayMoreInfoInLog,
-    SetResponseTimeInHeader
+    SetResponseTimeInHeader,
+    loadConfig,
+    global_time
 } from "./functions.ts"
 
 export {
@@ -31,9 +33,8 @@ export {
 } from "./sid.ts"
 
 export {
-    global_time
-} from "../core/server.ts"
-
+    redirect_engine
+} from "../lib/redirect_engine.ts"
 export {
     CONF
 } from "./conf.ts"
