@@ -13,7 +13,6 @@ export {
     getJSONfile,
     CLItest,
     getFileInfo,
-    argsValidation,
     writeLogToFile,
     displayMoreInfoInLog,
     SetResponseTimeInHeader

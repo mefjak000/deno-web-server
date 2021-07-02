@@ -19,7 +19,7 @@ import {
 /**
  * Runs server engine.
  */
-export async function engine(isSecure: boolean = false) {
+export async function engine() {
     let serv_conf: any
     try {
         serv_conf = await getJSONfile(`${Deno.cwd()}/config/server.config.json`)
@@ -128,9 +128,9 @@ export async function engine(isSecure: boolean = false) {
             writeLogToFile(1, log_style.info.name, `Working in ${Deno.cwd()}`)
         })
 
-        if (isSecure) {
+        if (serv_conf.conn.secure) {
             await app.listen({
-                secure: isSecure,
+                secure: serv_conf.conn.secure,
                 certFile: serv_conf.https.certFile,
                 keyFile: serv_conf.https.keyFile,
                 hostname: serv_conf.conn.hostname,

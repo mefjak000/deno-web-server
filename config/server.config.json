@@ -1,17 +1,14 @@
 {
     "displayLogs": true,
     "conn": {
+        "secure": false,
         "hostname": "127.0.0.1",
-        "http_port": 80,
-        "https_port": 443,
         "protocol": "tcp",
-        "certFile": "C:\\xampp\\htdocs\\WWW\\deno\\config\\cert\\cert_file.crt",
-        "keyFile": "C:\\xampp\\htdocs\\WWW\\deno\\config\\cert\\cert_key.key",
         "alpnProtocols": [
             "h2",
             "http/1.1"
         ],
-        "redirect": false
+        "redirect": true
     },
     "http": {
         "port": 80
