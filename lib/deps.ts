@@ -5,18 +5,35 @@ export {
 } from "https://deno.land/std@0.99.0/path/mod.ts"
 
 export {
-    getHTMLindexFile,
+    engine
+} from "./engine.ts"
+
+export {
+    getHTMLfile,
     getJSONfile,
     CLItest,
     getFileInfo,
-    argsValidation,
-    writeLogToFile
-} from "../lib/functions.ts"
+    writeLogToFile,
+    displayMoreInfoInLog,
+    SetResponseTimeInHeader
+} from "./functions.ts"
 
 export {
     ServerLog,
-} from "../lib/classes.ts"
+} from "./classes.ts"
 
 export {
     log_style,
-} from "../lib/log_style.ts"
+} from "./log_style.ts"
+
+export {
+    rand_sid
+} from "./sid.ts"
+
+export {
+    global_time
+} from "../core/server.ts"
+
+export {
+    CONF
+} from "./conf.ts"

@@ -1,0 +1,7 @@
+# Ignore test dir
+test/
+# Ignore Logs
+data.log
+# Ignore cert files
+cert_key.key
+cert_file.crt
