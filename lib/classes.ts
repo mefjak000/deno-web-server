@@ -11,7 +11,7 @@ export class ServerLog {
 
     constructor(type_id: number, label: string = '[SERVER LOG]:', color: string = '#0099ff') {
         // Regular expression for console name
-        const pattern1 = /\[SERVER [A-Z]{2,10}\]/gmi
+        const pattern1 = /\[  SERVER [A-Z]{2,10}  \]/gmi
         if (pattern1.test(label)) this.name = `%c${label}:`
         else this.name = `%c[SERVER LOG]`
 

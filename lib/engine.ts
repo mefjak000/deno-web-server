@@ -3,7 +3,6 @@ import {
     isHttpError,
     Status,
     getHTMLfile,
-    getJSONfile,
     getFileInfo,
     CLItest as test,
     Router,
@@ -14,22 +13,16 @@ import {
     CONF,
     displayMoreInfoInLog,
     SetResponseTimeInHeader,
+    loadConfig,
 } from "./deps.ts"
 
 /**
  * Runs server engine.
  */
 export async function engine() {
-    let serv_conf: any
-    try {
-        serv_conf = await getJSONfile(`${Deno.cwd()}/config/server.config.json`)
-    } catch (error) {
-        if (serv_conf.displayLogs) console.log(log_style.error.name, log_style.error.color, `Config load FAIL. ${error.name}`)
-        writeLogToFile(6, log_style.error.name, `Config load FAIL. ${error.name}`)
-        return
-    }
+    const serv_conf = await loadConfig()
 
-    // Default behavior off
+    // Middleware instances
     const app = new Application()
     const router = new Router()
 
@@ -41,7 +34,7 @@ export async function engine() {
 
     // Redirect handler
     app.use(async (ctx, next) => {
-        if (ctx.request.url.protocol == "http:" && serv_conf.conn.redirect == true) {
+        if (ctx.request.url.protocol == "http:" && serv_conf.conn.enable_redirection == true) {
             ctx.response.redirect("https://" + ctx.request.url.hostname + ctx.request.url.pathname)
         }
         await next()
@@ -128,9 +121,9 @@ export async function engine() {
             writeLogToFile(1, log_style.info.name, `Working in ${Deno.cwd()}`)
         })
 
-        if (serv_conf.conn.secure) {
+        if (serv_conf.conn.enable_ssl) {
             await app.listen({
-                secure: serv_conf.conn.secure,
+                secure: serv_conf.conn.enable_ssl,
                 certFile: serv_conf.https.certFile,
                 keyFile: serv_conf.https.keyFile,
                 hostname: serv_conf.conn.hostname,

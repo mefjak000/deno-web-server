@@ -1,14 +1,14 @@
 {
     "displayLogs": true,
     "conn": {
-        "secure": false,
         "hostname": "127.0.0.1",
         "protocol": "tcp",
+        "enable_ssl": false,
         "alpnProtocols": [
             "h2",
             "http/1.1"
         ],
-        "redirect": true
+        "enable_redirection": false
     },
     "http": {
         "port": 80

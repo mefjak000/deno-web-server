@@ -5,6 +5,8 @@ import {
     rand_sid as sid,
 } from "../lib/deps.ts";
 
+export const global_time: number = Date.now()
+
 /**
  * Used in testing.
  * @param { any } test_instance - Used to display parameter and type in console.
@@ -50,7 +52,7 @@ export async function writeLogToFile(type_id: number = 0, name: string, message:
         log = `[${date_str}] ${name} ${message}\n`
     }
 
-    await Deno.writeTextFile(`${Deno.cwd()}/logs/data.log`, log, { append: add, create: true })
+    await Deno.writeTextFile(`${Deno.cwd()}/logs/server_logs.log`, log, { append: add, create: true })
 }
 
 /**
@@ -126,4 +128,16 @@ export const SetResponseTimeInHeader = async (
     await next()
     const ms: number = Date.now() - start
     response.headers.set("X-Response-Time", `${ms}ms`)
+}
+
+export async function loadConfig() {
+    let config: any
+    try {
+        config = await getJSONfile(`${Deno.cwd()}/config/server.config.json`)
+        return config
+    } catch (error) {
+        if (config.displayLogs) console.log(log_style.error.name, log_style.error.color, `Config load FAIL. ${error.name}`)
+        writeLogToFile(6, log_style.error.name, `Config load FAIL. ${error.name}`)
+        return
+    }
 }
