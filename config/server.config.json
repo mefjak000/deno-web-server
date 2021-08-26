@@ -3,12 +3,12 @@
     "conn": {
         "hostname": "127.0.0.1",
         "protocol": "tcp",
-        "enable_ssl": true,
+        "enable_ssl": false,
         "alpnProtocols": [
             "h2",
             "http/1.1"
         ],
-        "enable_redirection": true
+        "enable_redirection": false
     },
     "http": {
         "port": 80

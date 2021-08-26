@@ -1,7 +1,7 @@
-# Ignore test dir
 test/
-# Ignore Logs
 server_logs.log
-# Ignore cert files
 cert_key.key
 cert_file.crt
+.vscode/settings.json
+.vscode/
+.git/
